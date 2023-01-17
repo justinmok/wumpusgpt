@@ -34,8 +34,9 @@ client.on('interactionCreate', async interaction => {
     const allMessages = await interaction.channel.messages.fetch();
     const lastHour = allMessages.filter(msg => msg.createdTimestamp > Date.now() - (3600000 * 10));
     const transcript = lastHour.map((map, index, arr) => {
-        const lastAuthor = arr[index - 1].author;
-        if (lastAuthor == msg.author.username) return msg.content;
+        let lastAuthor;
+        if (index != 0) lastAuthor = arr[index - 1].author;
+        if (lastAuthor && lastAuthor == msg.author.username) return msg.content;
         else return `${msg.author.username} - ${msg.content}`
     });
 
